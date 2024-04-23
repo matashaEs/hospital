@@ -33,6 +33,7 @@ if (isset($_POST['send_form'])) {
 
     $query = "INSERT INTO questions (id_user, date, qu1, qu2, qu3, qu4, qu5, qu6, qu7, qu8, qu9, qu10)
                           VALUES('$id_user', current_date, '$qu1', '$qu2', '$qu3', '$qu4', '$qu5', '$qu6', '$qu7', '$qu8', '$qu9', '$qu10')";
+                         
     mysqli_query($db, $query);
 
     $_SESSION['success'] = $success;
@@ -94,6 +95,11 @@ if (isset($_POST['login_user'])) {
     $email = mysqli_real_escape_string($db, $_POST['email']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
 
+
+} else { 
+    echo "0 results"; 
+} 
+
     if (empty($email)) {
         array_push($errors, "Email jest wymagany");
     }
@@ -111,12 +117,7 @@ if (isset($_POST['login_user'])) {
             $_SESSION['userid'] = $user['id_user'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['password'] = $user['password'];
-<<<<<<< Updated upstream
-            header('location: index.php');
-        }else {
-=======
-
-            echo "Cos";
+            $id_user = $user['id_user']; 
 
             ////Check form delay
             ////Retrieve date from the last patient form 
@@ -162,7 +163,7 @@ if (isset($_POST['login_user'])) {
                 $diff = date_diff($new_date3 , $form_date4);
 
                 ////Interval = 7 days
-                $interval = '0000-07-00 00:00:00';    
+                $interval = '0000-00-07 00:00:00';    
                 $difference = new DateTime($interval);
 
                 ////todays date-form_date < 7days
@@ -184,9 +185,9 @@ if (isset($_POST['login_user'])) {
         }
         else 
         {
->>>>>>> Stashed changes
             array_push($errors, "Nieprawidłowy adres e-mail lub hasło");
         }
     }
+
 }
 ?>
