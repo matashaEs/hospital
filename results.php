@@ -32,6 +32,12 @@ if (isset($_GET['logout'])) {
                 <th>Wynik</th>
                 <th>Szczegóły</th>
             </tr>
+            <?php while ($result = mysqli_fetch_array(
+                $all_results,MYSQLI_ASSOC)): ?>
+                    <tr>
+                        <td><?php echo getData('questions', 'id_user', 'date', $_SESSION['userid']); ?></td>
+                    </tr>
+                <?php endwhile; ?>
         </table>
     <?php endif; ?>
 </div>

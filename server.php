@@ -10,6 +10,18 @@ $inform = array();
 // connect to the database
 $db = mysqli_connect('localhost', 'root', '', 'hospital');
 
+$sql_result = "SELECT * FROM `questions`";
+$all_results = mysqli_query($db,$sql_result);
+
+function getData($table, $elem_id, $elem_name, $elem_data) {
+    global $db;
+    $query = "SELECT * FROM $table WHERE $elem_id = '$elem_data'";
+    $result = mysqli_query($db, $query);
+    $row = mysqli_fetch_assoc($result);
+    $id = $row[$elem_name];
+    return $id;
+}
+
 // SEND FORM
 if (isset($_POST['send_form'])) {
     $id_user = $_SESSION['userid'];
@@ -95,11 +107,6 @@ if (isset($_POST['login_user'])) {
     $email = mysqli_real_escape_string($db, $_POST['email']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
 
-
-} else { 
-    echo "0 results"; 
-} 
-
     if (empty($email)) {
         array_push($errors, "Email jest wymagany");
     }
@@ -117,38 +124,36 @@ if (isset($_POST['login_user'])) {
             $_SESSION['userid'] = $user['id_user'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['password'] = $user['password'];
-            $id_user = $user['id_user']; 
+            $id_user = $user['id_user'];
 
             ////Check form delay
             ////Retrieve date from the last patient form 
             $data_check_query = "SELECT DATE as date FROM questions WHERE id_user='$id_user'";
-           
+
             /////Check if there is no form in database
-            if (empty($data_check_query))
-            {
+            if (empty($data_check_query)) {
                 ////Go to page with form
-                header('location: index.php'); 
+                header('location: index.php');
             }
-            if (!empty($data_check_query))
-            {
+            if (!empty($data_check_query)) {
                 $result = mysqli_query($db, $data_check_query);
                 ////Date - type of array
-                $form_date = mysqli_fetch_assoc($result); 
-                
+                $form_date = mysqli_fetch_assoc($result);
+
                 //echo "<pre>";
                 //var_dump($form_date2);
                 //echo "</pre>";
 
                 ////Date - type of string
-                $form_date2 = implode("-",$form_date);
+                $form_date2 = implode("-", $form_date);
 
                 ////Date - type of date
-                $form_date3 = date('Y-m-d', strtotime($form_date2)); 
+                $form_date3 = date('Y-m-d', strtotime($form_date2));
 
                 //echo gettype($form_date3);
 
                 $new_date = date("Y-m-d");
-                $new_date2 = date('Y-m-d', strtotime($new_date)); 
+                $new_date2 = date('Y-m-d', strtotime($new_date));
 
                 //echo gettype($new_date2);
 
@@ -160,34 +165,28 @@ if (isset($_POST['login_user'])) {
                 //echo gettype($new_date3);
 
                 //date_diff(DataTimeInterface,DataTimeInterface);
-                $diff = date_diff($new_date3 , $form_date4);
+                $diff = date_diff($new_date3, $form_date4);
 
                 ////Interval = 7 days
-                $interval = '0000-00-07 00:00:00';    
+                $interval = '0000-00-07 00:00:00';
                 $difference = new DateTime($interval);
 
                 ////todays date-form_date < 7days
-                if($diff < $difference) 
-                {
+                if ($diff < $difference) {
                     //Stay on Login page
                     echo "Stay on Login page";
-                    array_push($errors, "Od przesłania ostatniego formularza nie mineło 7dni. Prosimy o cierpliwość "); 
-                }
-                ////todays date-form_date > 7days
-                else
-                {
+                    array_push($errors, "Od przesłania ostatniego formularza nie mineło 7dni. Prosimy o cierpliwość ");
+                } ////todays date-form_date > 7days
+                else {
                     //Go to Form page
                     echo "Form page";
-                    header('location: index.php'); 
+                    header('location: index.php');
                 }
 
             }
-        }
-        else 
-        {
+        } else {
             array_push($errors, "Nieprawidłowy adres e-mail lub hasło");
         }
     }
-
 }
 ?>

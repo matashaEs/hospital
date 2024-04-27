@@ -1,7 +1,7 @@
 <div class="header">
     <div class="header-content">
         <a href="index.php"><h3>Formularz</h3></a>
-        <a href="index.php"><h3>Wyniki</h3></a>
+        <a href="results.php"><h3>Wyniki</h3></a>
     </div>
 
     <?php  if (isset($_SESSION['username'])) : ?>
