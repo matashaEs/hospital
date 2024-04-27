@@ -10,23 +10,124 @@ body {
 .header {
     margin: 0 auto;
     color: white;
-    background: #5F9EA0;
+    background: #265956;
     text-align: center;
     border: 1px solid #B0C4DE;
     border-bottom: none;
     padding: 20px 70px;
     display: flex;
     justify-content: space-between;
+    
 }
+
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid transparent; /* Usunięcie koloru ramki */
+    color: #5F9EA0;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Dodanie przejścia dla koloru tła, tekstu i ramki */
+    background-color: transparent; /* Przezroczyste tło */
+}
+
+.button:hover {
+    background-color: #265956; /* Zmiana koloru tła po najechaniu */
+    /* Zmiana koloru tekstu po najechaniu */
+    color: #90a9a6; 
+
+    border-color: #265956; /* Zmiana koloru ramki po najechaniu */
+}
+
 
 .header-content {
     gap: 10px;
     display: flex;
+    color: black;
 }
 
 .header-content a {
-    color: white;
+    color: white;    /* color: rgb(235, 241, 241); */
+
 }
+
+.content {
+    background: white;
+    margin: 0px auto;
+    padding: 70px;
+
+}
+
+.slideshow-container {
+    width: 800px; 
+    height: 800px; 
+    position: absolute;
+    margin: 5px;
+    overflow: hidden;
+}
+
+.mySlides img {
+    width: 50%;  
+    height: auto; 
+}
+
+.text{
+    float:left; 
+    margin-left: 700px;
+    font-family: "Ibarra Real Nova", serif;
+   
+
+}
+.text ul {
+    text-align: center;
+    list-style-position: outside;
+
+}
+
+.text1{
+    clear: both;
+    margin: 400px;
+    font-family: "Ibarra Real Nova", serif;
+    font-size: medium;
+    color: #265956;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px; 
+
+    
+}
+
+
+
+
+.logo {
+    width: 100px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+
+
+.logo-text {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.nav-links li:last-child {
+    margin-right: 0;
+}
+
 
 datalist {
     display: flex;
@@ -91,11 +192,9 @@ select {
     width: 200px;
 }
 
-.content {
-    background: white;
-    margin: 0px auto;
-    padding: 70px;
-}
+
+
+
 .input-group {
     margin: 0 5px;
 }
