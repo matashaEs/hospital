@@ -95,11 +95,6 @@ if (isset($_POST['login_user'])) {
     $email = mysqli_real_escape_string($db, $_POST['email']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
 
-
-} else { 
-    echo "0 results"; 
-} 
-
     if (empty($email)) {
         array_push($errors, "Email jest wymagany");
     }
