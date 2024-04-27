@@ -1,14 +1,18 @@
-// const buttonNext = document.querySelector('.btn_next');
-// const buttonPrev = document.querySelector('.btn_prev');
-// const form = document.querySelector('.form_container');
+const buttonNext = document.querySelector('.btn_next');
+const buttonPrev = document.querySelector('.btn_prev');
+const form = document.querySelector('.form_container');
 
-// buttonNext.addEventListener('click', function() {
-//     form.classList.add('active');
-// });
+if(buttonNext) {
+    buttonNext.addEventListener('click', function() {
+        form.classList.add('active');
+    });
+}
 
-// buttonPrev.addEventListener('click', function() {
-//     form.classList.remove('active');
-// });
+if(buttonPrev) {
+    buttonPrev.addEventListener('click', function() {
+        form.classList.remove('active');
+    });
+}
 
 let slideIndex = 0;
         showSlides();
