@@ -27,16 +27,16 @@ body {
 .button {
     display: inline-block;
     padding: 10px 20px;
-    border: 2px solid transparent; /* Usunięcie koloru ramki */
+    border: 2px solid transparent; 
     color: #5F9EA0;
     text-decoration: none;
     border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Dodanie przejścia dla koloru tła, tekstu i ramki */
-    background-color: transparent; /* Przezroczyste tło */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    background-color: transparent; 
 }
 
 .button:hover {
-    background-color: #265956; /* Zmiana koloru tła po najechaniu */
+    background-color: #265956; 
     /* Zmiana koloru tekstu po najechaniu */
     color: #90a9a6; 
 
@@ -104,7 +104,6 @@ body {
 
     
 }
-
 
 
 
@@ -223,7 +222,7 @@ textarea {
     border-radius: 5px;
     border: 1px solid gray;
 }
-.btn {
+/* .btn {
     margin-top: 40px;
     margin-bottom: 40px;
     padding: 10px;
@@ -233,7 +232,7 @@ textarea {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
+} */
 .error {
     width: 100%;
     margin: 0px auto;
