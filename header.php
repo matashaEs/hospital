@@ -6,8 +6,8 @@
 
     <?php  if (isset($_SESSION['username'])) : ?>
         <div class="header-content">
-            <?php if ($_SESSION['email'] == 'admin@gmail.com' && $_SESSION['password'] == md5('n')) : ?>
-                <a href="box.php"><p>Skrzynka</p></a>
+            <?php if ($_SESSION['email'] == 'floral.flicker.candle@gmail.com' && $_SESSION['password'] == md5('n')) : ?>
+                <a href="patients.php"><p>Pacjenci</p></a>
             <?php endif; ?>
             <p>Hej <strong><?php echo $_SESSION['username']; ?></strong></p>
             <p> <a href="index.php?logout='1'" style="color: red;">Wyjdź</a> </p>

@@ -1,3 +1,5 @@
+<?php include('send.php'); ?>
+
 <?php
 session_start();
 
@@ -20,6 +22,22 @@ function getData($table, $elem_id, $elem_name, $elem_data) {
     $row = mysqli_fetch_assoc($result);
     $id = $row[$elem_name];
     return $id;
+}
+
+
+//SEND RESULT
+if (isset($_POST['send_result'])) {
+    $id_qu = mysqli_real_escape_string($db, $_POST['id_qu']);
+    $result = mysqli_real_escape_string($db, $_POST['result']);
+    $name = mysqli_real_escape_string($db, $_POST['name']);
+    $surname = mysqli_real_escape_string($db, $_POST['surname']);
+
+    $query = "UPDATE questions SET hospital = 1
+                    WHERE id_question = '$id_qu'";
+
+    mysqli_query($db, $query);
+
+    send_message($name, $surname, $result);
 }
 
 // SEND FORM
@@ -48,7 +66,10 @@ if (isset($_POST['send_form'])) {
                          
     mysqli_query($db, $query);
 
+    $id_qu = mysqli_insert_id($db);
     $_SESSION['success'] = $success;
+    $_SESSION['result'] = $result;
+    $_SESSION['id_qu'] = $id_qu;
 }
 
 // REGISTER USER
@@ -126,64 +147,65 @@ if (isset($_POST['login_user'])) {
             $_SESSION['password'] = $user['password'];
             $id_user = $user['id_user'];
 
-            ////Check form delay
-            ////Retrieve date from the last patient form 
-            $data_check_query = "SELECT DATE as date FROM questions WHERE id_user='$id_user'";
-
-            /////Check if there is no form in database
-            if (empty($data_check_query)) {
-                ////Go to page with form
-                header('location: index.php');
-            }
-            if (!empty($data_check_query)) {
-                $result = mysqli_query($db, $data_check_query);
-                ////Date - type of array
-                $form_date = mysqli_fetch_assoc($result);
-
-                //echo "<pre>";
-                //var_dump($form_date2);
-                //echo "</pre>";
-
-                ////Date - type of string
-                $form_date2 = implode("-", $form_date);
-
-                ////Date - type of date
-                $form_date3 = date('Y-m-d', strtotime($form_date2));
-
-                //echo gettype($form_date3);
-
-                $new_date = date("Y-m-d");
-                $new_date2 = date('Y-m-d', strtotime($new_date));
-
-                //echo gettype($new_date2);
-
-                ////Dates - type of DataTimeInterface -> date_diff(DataTimeInterface,DataTimeInterface);
-                $form_date4 = new DateTime($form_date3);
-                $new_date3 = new DateTime($new_date2);
-
-                //echo gettype($form_date4);
-                //echo gettype($new_date3);
-
-                //date_diff(DataTimeInterface,DataTimeInterface);
-                $diff = date_diff($new_date3, $form_date4);
-
-                ////Interval = 7 days
-                $interval = '0000-00-07 00:00:00';
-                $difference = new DateTime($interval);
-
-                ////todays date-form_date < 7days
-                if ($diff < $difference) {
-                    //Stay on Login page
-                    echo "Stay on Login page";
-                    array_push($errors, "Od przesłania ostatniego formularza nie mineło 7dni. Prosimy o cierpliwość ");
-                } ////todays date-form_date > 7days
-                else {
-                    //Go to Form page
-                    echo "Form page";
-                    header('location: index.php');
-                }
-
-            }
+//            ////Check form delay
+//            ////Retrieve date from the last patient form
+//            $data_check_query = "SELECT DATE as date FROM questions WHERE id_user='$id_user'";
+//
+//            /////Check if there is no form in database
+//            if (empty($data_check_query)) {
+//                ////Go to page with form
+//                header('location: index.php');
+//            }
+//            if (!empty($data_check_query)) {
+//                $result = mysqli_query($db, $data_check_query);
+//                ////Date - type of array
+//                $form_date = mysqli_fetch_assoc($result);
+//
+//                //echo "<pre>";
+//                //var_dump($form_date2);
+//                //echo "</pre>";
+//
+//                ////Date - type of string
+//                $form_date2 = implode("-", $form_date);
+//
+//                ////Date - type of date
+//                $form_date3 = date('Y-m-d', strtotime($form_date2));
+//
+//                //echo gettype($form_date3);
+//
+//                $new_date = date("Y-m-d");
+//                $new_date2 = date('Y-m-d', strtotime($new_date));
+//
+//                //echo gettype($new_date2);
+//
+//                ////Dates - type of DataTimeInterface -> date_diff(DataTimeInterface,DataTimeInterface);
+//                $form_date4 = new DateTime($form_date3);
+//                $new_date3 = new DateTime($new_date2);
+//
+//                //echo gettype($form_date4);
+//                //echo gettype($new_date3);
+//
+//                //date_diff(DataTimeInterface,DataTimeInterface);
+//                $diff = date_diff($new_date3, $form_date4);
+//
+//                ////Interval = 7 days
+//                $interval = '0000-00-07 00:00:00';
+//                $difference = new DateTime($interval);
+//
+//                ////todays date-form_date < 7days
+//                if ($diff < $difference) {
+//                    //Stay on Login page
+//                    echo "Stay on Login page";
+//                    array_push($errors, "Od przesłania ostatniego formularza nie mineło 7dni. Prosimy o cierpliwość ");
+//                } ////todays date-form_date > 7days
+//                else {
+//                    //Go to Form page
+//                    echo "Form page";
+//                    header('location: index.php');
+//                }
+//
+//            }
+            header('location: index.php');
         } else {
             array_push($errors, "Nieprawidłowy adres e-mail lub hasło");
         }

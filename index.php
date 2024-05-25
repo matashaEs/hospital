@@ -263,7 +263,13 @@ Zaufaj naszemu doświadczeniu i wybierz Szpital Nowoczesnej Medycyny dla swojego
                     ?>
                 </h3>
                 <div class="input-group">
-                    <button type="submit" class="btn" name="send_result">Wyślij wynik do lekarza</button>
+                    <form method="post" action="index.php">
+                        <input type="hidden" name="id_qu" value="<?php echo ($_SESSION['id_qu']) ?>">
+                        <input type="hidden" name="name" value="<?php echo $_SESSION['username']; ?>">
+                        <input type="hidden" name="surname" value="<?php echo getData('user', 'id_user', 'surname', $_SESSION['userid']); ?>">
+                        <input type="hidden" name="result" value="<?php echo $_SESSION['result'] ?>">
+                        <button type="submit" class="btn" name="send_result">Wyślij wynik do lekarza</button>
+                    </form>
                 </div>
             </div>
         <?php endif ?>
