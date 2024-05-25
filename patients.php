@@ -41,7 +41,7 @@
                     <td><?php echo $result['date']; ?></td>
                     <td><?php echo $result['result']; ?></td>
                     <td>
-                        <button type="button" class="btn btn_add btn-margin">Pokaż szczegóły</button>
+                        <button type="button" class="btn btn_add button btn-margin">Pokaż szczegóły</button>
                     </td>
                 </tr>
                 <tr class="row-hidden hidden">

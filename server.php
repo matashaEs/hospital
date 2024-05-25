@@ -42,34 +42,37 @@ if (isset($_POST['send_result'])) {
 
 // SEND FORM
 if (isset($_POST['send_form'])) {
-    $id_user = $_SESSION['userid'];
-    $qu1 = mysqli_real_escape_string($db, $_POST['qu1']);
-    $qu2 = mysqli_real_escape_string($db, $_POST['qu2']);
-    $qu3 = mysqli_real_escape_string($db, $_POST['qu3']);
-    $qu4 = mysqli_real_escape_string($db, $_POST['qu4']);
-    $qu5 = mysqli_real_escape_string($db, $_POST['qu5']);
-    $qu6 = mysqli_real_escape_string($db, $_POST['qu6']);
-    $qu7 = mysqli_real_escape_string($db, $_POST['qu7']);
-    $qu8 = mysqli_real_escape_string($db, $_POST['qu8']);
-    $qu9 = mysqli_real_escape_string($db, $_POST['qu9']);
-    $qu10 = mysqli_real_escape_string($db, $_POST['qu10']);
+    if(empty($_SESSION['again'])) {
+        $id_user = $_SESSION['userid'];
+        $qu1 = mysqli_real_escape_string($db, $_POST['qu1']);
+        $qu2 = mysqli_real_escape_string($db, $_POST['qu2']);
+        $qu3 = mysqli_real_escape_string($db, $_POST['qu3']);
+        $qu4 = mysqli_real_escape_string($db, $_POST['qu4']);
+        $qu5 = mysqli_real_escape_string($db, $_POST['qu5']);
+        $qu6 = mysqli_real_escape_string($db, $_POST['qu6']);
+        $qu7 = mysqli_real_escape_string($db, $_POST['qu7']);
+        $qu8 = mysqli_real_escape_string($db, $_POST['qu8']);
+        $qu9 = mysqli_real_escape_string($db, $_POST['qu9']);
+        $qu10 = mysqli_real_escape_string($db, $_POST['qu10']);
 
-    $result = $qu1 + $qu2 + $qu3 + $qu4 + $qu5 + $qu6 + $qu7 + $qu8 + $qu9 + $qu10;
-    if($result >= 50) {
-        $success = "Twój wynik " . $result . ". Zalecamy najszybsze skontaktowanie się z naszym ośrodkiem medycznym w celu umówienia wizyty";
-    } else {
-        $success = "Twój wynik " . $result;
-    }
+        $result = $qu1 + $qu2 + $qu3 + $qu4 + $qu5 + $qu6 + $qu7 + $qu8 + $qu9 + $qu10;
+        if ($result >= 50) {
+            $success = "Twój wynik " . $result . ". Zalecamy najszybsze skontaktowanie się z naszym ośrodkiem medycznym w celu umówienia wizyty";
+        } else {
+            $success = "Twój wynik " . $result;
+        }
 
-    $query = "INSERT INTO questions (id_user, date, qu1, qu2, qu3, qu4, qu5, qu6, qu7, qu8, qu9, qu10, result)
+        $query = "INSERT INTO questions (id_user, date, qu1, qu2, qu3, qu4, qu5, qu6, qu7, qu8, qu9, qu10, result)
                           VALUES('$id_user', current_date, '$qu1', '$qu2', '$qu3', '$qu4', '$qu5', '$qu6', '$qu7', '$qu8', '$qu9', '$qu10', '$result')";
-                         
-    mysqli_query($db, $query);
 
-    $id_qu = mysqli_insert_id($db);
-    $_SESSION['success'] = $success;
-    $_SESSION['result'] = $result;
-    $_SESSION['id_qu'] = $id_qu;
+        mysqli_query($db, $query);
+
+        $id_qu = mysqli_insert_id($db);
+        $_SESSION['success'] = $success;
+        $_SESSION['result'] = $result;
+        $_SESSION['id_qu'] = $id_qu;
+        $_SESSION['again'] = "Again";
+    }
 }
 
 // REGISTER USER
@@ -147,64 +150,16 @@ if (isset($_POST['login_user'])) {
             $_SESSION['password'] = $user['password'];
             $id_user = $user['id_user'];
 
-//            ////Check form delay
-//            ////Retrieve date from the last patient form
-//            $data_check_query = "SELECT DATE as date FROM questions WHERE id_user='$id_user'";
-//
-//            /////Check if there is no form in database
-//            if (empty($data_check_query)) {
-//                ////Go to page with form
-//                header('location: index.php');
-//            }
-//            if (!empty($data_check_query)) {
-//                $result = mysqli_query($db, $data_check_query);
-//                ////Date - type of array
-//                $form_date = mysqli_fetch_assoc($result);
-//
-//                //echo "<pre>";
-//                //var_dump($form_date2);
-//                //echo "</pre>";
-//
-//                ////Date - type of string
-//                $form_date2 = implode("-", $form_date);
-//
-//                ////Date - type of date
-//                $form_date3 = date('Y-m-d', strtotime($form_date2));
-//
-//                //echo gettype($form_date3);
-//
-//                $new_date = date("Y-m-d");
-//                $new_date2 = date('Y-m-d', strtotime($new_date));
-//
-//                //echo gettype($new_date2);
-//
-//                ////Dates - type of DataTimeInterface -> date_diff(DataTimeInterface,DataTimeInterface);
-//                $form_date4 = new DateTime($form_date3);
-//                $new_date3 = new DateTime($new_date2);
-//
-//                //echo gettype($form_date4);
-//                //echo gettype($new_date3);
-//
-//                //date_diff(DataTimeInterface,DataTimeInterface);
-//                $diff = date_diff($new_date3, $form_date4);
-//
-//                ////Interval = 7 days
-//                $interval = '0000-00-07 00:00:00';
-//                $difference = new DateTime($interval);
-//
-//                ////todays date-form_date < 7days
-//                if ($diff < $difference) {
-//                    //Stay on Login page
-//                    echo "Stay on Login page";
-//                    array_push($errors, "Od przesłania ostatniego formularza nie mineło 7dni. Prosimy o cierpliwość ");
-//                } ////todays date-form_date > 7days
-//                else {
-//                    //Go to Form page
-//                    echo "Form page";
-//                    header('location: index.php');
-//                }
-//
-//            }
+            $query = "SELECT * FROM questions
+                            WHERE date >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+                            AND id_user = '$id_user'
+                            LIMIT 1";
+            $result = mysqli_query($db, $query);
+            $user = mysqli_fetch_assoc($result);
+            if(!empty($user)) {
+                $_SESSION['again'] = "Again";
+            }
+
             header('location: index.php');
         } else {
             array_push($errors, "Nieprawidłowy adres e-mail lub hasło");
