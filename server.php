@@ -63,7 +63,7 @@ if (isset($_POST['send_form'])) {
         }
 
         $query = "INSERT INTO questions (id_user, date, qu1, qu2, qu3, qu4, qu5, qu6, qu7, qu8, qu9, qu10, result)
-                          VALUES('$id_user', current_date, '$qu1', '$qu2', '$qu3', '$qu4', '$qu5', '$qu6', '$qu7', '$qu8', '$qu9', '$qu10', '$result')";
+                          VALUES('$id_user', current_timestamp(), '$qu1', '$qu2', '$qu3', '$qu4', '$qu5', '$qu6', '$qu7', '$qu8', '$qu9', '$qu10', '$result')";
 
         mysqli_query($db, $query);
 
