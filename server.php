@@ -10,7 +10,7 @@ $errors = array();
 $inform = array();
 
 // connect to the database
-$db = mysqli_connect('localhost', 'root', '', 'hospital');
+$db = mysqli_connect('localhost', 'srv70264_hospital', 'EqrGkNhw8X7Lzb9UD8FB', 'srv70264_hospital');
 
 $sql_result = "SELECT * FROM `questions`";
 $all_results = mysqli_query($db,$sql_result);
