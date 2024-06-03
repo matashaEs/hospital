@@ -1,4 +1,5 @@
-<?php include('send.php'); ?>
+<?php include('send.php');
+ob_start(); ?>
 
 <?php
 session_start();

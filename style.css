@@ -48,6 +48,7 @@ body {
     gap: 10px;
     display: flex;
     color: black;
+    align-items: baseline;
 }
 
 .header-content a {
@@ -87,7 +88,7 @@ body {
     position: absolute;
     z-index: 3;
     left: 0;
-    top: 4.1rem;
+    top: 5.6rem;
     text-align: center;
 }
 
